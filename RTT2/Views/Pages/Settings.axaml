@@ -1,0 +1,91 @@
+<Panel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RandomTick.Views.Pages.Settings">
+    
+    <ScrollViewer>
+        <ItemsControl>
+        <controls:SettingsExpander Header="Language"
+                                   IconSource="Settings"
+                                   Description="Switch RandomTick Tool's Language"
+                                   Margin="0,0,50,0">
+
+            <controls:SettingsExpanderItem Content="Select Language"
+                                           Description="Language's You Installed">
+                <controls:SettingsExpanderItem.Footer>
+                    <ComboBox Name="VSLanguages"/>
+                </controls:SettingsExpanderItem.Footer>
+            </controls:SettingsExpanderItem>
+            <controls:SettingsExpanderItem Content="Download Languages"
+                                           Description="Download Translates From Our Server">
+                <controls:SettingsExpanderItem.Footer>
+                    <Button Content="Check Update"/>
+                </controls:SettingsExpanderItem.Footer>
+            </controls:SettingsExpanderItem>
+            <controls:SettingsExpanderItem Name="SaveLang"
+                                           Content="Apply Changes"
+                                           ActionIconSource="Checkmark"
+                                           IsClickEnabled="True" />
+        </controls:SettingsExpander>
+        
+        <controls:SettingsExpander Header="Theme"
+                                   IconSource="DarkTheme"
+                                   Description="(Working On) Personalize Your RandomTick Tool"
+                                   Margin="0,7,50,0"
+                                   IsEnabled="False">
+
+            <controls:SettingsExpanderItem Content="Dark Mode"
+                                           Description="Toggle On Dark Mode For The App">
+                <controls:SettingsExpanderItem.Footer>
+                    <ComboBox Name="VSDarkSelector">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Dark Mode"/>
+                            <ComboBoxItem Content="Light Mode"/>
+                            <ComboBoxItem Content="Auto"/>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </controls:SettingsExpanderItem.Footer>
+            </controls:SettingsExpanderItem>
+            <controls:SettingsExpanderItem Content="Customized Accent Color"
+                                           Description="Not Available For Now..."
+                                           IsEnabled="False">
+                <controls:SettingsExpanderItem.Footer>
+                    <ComboBox IsEnabled="False"/>
+                </controls:SettingsExpanderItem.Footer>
+            </controls:SettingsExpanderItem>
+            <controls:SettingsExpanderItem Content="Apply Changes"
+                                           ActionIconSource="Checkmark"
+                                           IsClickEnabled="True" />
+        </controls:SettingsExpander>
+    
+        <controls:SettingsExpander Header="About"
+                                   IconSource="Up"
+                                   Description="About RandomTick Tool"
+                                   Margin="0,7,50,0">
+
+            <controls:SettingsExpanderItem Content="Version"
+                                           Description="2.0" />
+            <controls:SettingsExpanderItem Content="Author"
+                                           Name="CheatEntrance"
+                                           Description="CubeVlmu">
+            </controls:SettingsExpanderItem>
+            <controls:SettingsExpanderItem Content="Enable Debug Mode(Need Restart)"
+                                           Description="Switch On This, Program Will Supply Some Advance Functions"
+                                           IsEnabled="True"
+                                           IconSource="Code"
+                                           >
+                <controls:SettingsExpanderItem.Footer>
+                    <CheckBox IsEnabled="True" Name="VSDevelop"/>
+                </controls:SettingsExpanderItem.Footer>
+            </controls:SettingsExpanderItem>
+            
+            <controls:SettingsExpanderItem Content="CheckUpdate"
+                                           IconSource="Up"
+                                           IsClickEnabled="True" />
+        </controls:SettingsExpander>
+    </ItemsControl>
+    </ScrollViewer>
+</Panel>

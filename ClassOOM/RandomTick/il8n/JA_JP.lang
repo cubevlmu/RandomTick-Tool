@@ -1,0 +1,70 @@
+{
+	"Info": {
+		"Author": "Cubevlmu",
+		"Name": "RandomTick 日本語言語パック(ChatGPT Provide)",
+		"Type": 4
+	},
+	"Content": {
+		"RandomTick":  {
+			"Views":  {
+				"Pages": {
+					"Editor": {
+						"EditorHomePage": {
+							"OpenText": "編集",
+						    "RefreshText": "リフレッシュ",
+						    "DeleteText": "削除",
+						    "NewText": "新規",
+						    "NewSet": "🆕新しいセット",
+						    "NewSetTips": "良い名前をつけてセットを作成しましょう~ :)"
+						},
+						"EditorPage": {
+							"RemoveText": "削除",
+							"AddText": "追加",
+							"SaveText": "保存",
+							"RenameText": "名前を変更",
+							"DeleteSelfText": "自分を削除",
+						    "AddTickets": "➕コンテンツを追加",
+						    "AddTicketsTips": "追加したいアイテムを下の入力ボックスに入力してください（複数行に対応）",
+						    "RenameSet": "🆕セットの名前を変更",
+						    "RenameSetTips": "セットに新しい良い名前を付けてください~ :)",
+						    "NotSaveTips": "ファイルは保存されていません。保存しますか？"
+						}
+					},
+					"HomePage":  {
+						"DisplayDefault": "抽選ボタンを押してひとつ選んでみてください！",
+						"NextDefault": "抽選",
+						"SelectedDefault": "選択済み"
+					},
+					"RepeatMode": {
+						"SpeedText": "速さ",
+						"NextEnd": "停止!",
+						"NextStart": "開始!"
+					},
+					"TagEditor": {
+						"HomeTag": "エディタのホームページ",
+						"TitleTips": "✏️編集中 "
+					}
+				},
+				"MainWindow": {
+					"NormalModeText": "デフォルトモード",
+					"RepeatModeText": "リピートモード",
+					"EditorText": "セットエディタ",
+					"SettingsText": "ソフトウェアの設定",
+					"Title": "RandomTagTool V2"
+				}
+			},
+			"Dialogs": {
+				"EmptySelectMsg": "セットを選択してください！",
+				"DialogErrorTitle": "❌ エラー",
+				"RemoveFailed": "削除エラー",
+				"FileNotFound": "🤢 このコレクションまたはファイルが見つかりません",
+				"DeleteMsg": "本当に削除しますか",
+				"DeleteYes": "はい",
+				"DeleteNo": "いいえ",
+				"DeleteTitle": "⚠️ 警告",
+				"SuccessTitle": "✅ 成功！",
+				"SuccessContent": "保存成功しました！"
+			}
+		}
+	}
+}

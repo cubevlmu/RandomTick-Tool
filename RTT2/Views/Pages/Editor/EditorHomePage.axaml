@@ -1,0 +1,27 @@
+<Panel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RandomTick.Views.Pages.Editor.EditorHomePage"
+             
+             
+             xmlns:vm="using:RandomTick.ViewModels.Editor"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
+    
+    <Design.DataContext>
+        <vm:EditorHomePageViewModel/>
+    </Design.DataContext>
+    
+    <controls:CommandBar DefaultLabelPosition="Right">
+        <controls:CommandBar.PrimaryCommands>
+            <controls:CommandBarButton Name="OpenBtn" IconSource="Open" Label="Open Select" />
+            <controls:CommandBarSeparator />
+            <controls:CommandBarButton Name="NewBtn" IconSource="New" Label="New" />
+            <controls:CommandBarButton Name="DeleteBtn" IconSource="Delete" Label="Delete" />
+            <controls:CommandBarSeparator />
+            <controls:CommandBarButton Name="RefreshBtn" IconSource="Refresh" Label="Refresh" />
+        </controls:CommandBar.PrimaryCommands>
+    </controls:CommandBar>
+    <ListBox Name="Files" Margin="5,50,5,5"/>
+</Panel>

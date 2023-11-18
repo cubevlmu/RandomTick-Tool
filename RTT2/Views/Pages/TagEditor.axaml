@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:editor="clr-namespace:RandomTick.Views.Pages.Editor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:RandomTick.ViewModels"
+             Tag="Editor"
+             x:Class="RandomTick.Views.Pages.TagEditor">
+    
+    <Design.DataContext>
+        <vm:TagEditorViewModel/>
+    </Design.DataContext>
+    
+    <ui:TabView Name="ViewTab" CanDragTabs="True" IsAddTabButtonVisible="False"/>
+</UserControl>

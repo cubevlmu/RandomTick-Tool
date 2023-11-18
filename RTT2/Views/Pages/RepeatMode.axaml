@@ -1,0 +1,27 @@
+<Panel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Tag="Repeat Mode"
+             x:Class="RandomTick.Views.Pages.RepeatMode"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Center"
+             Margin="-60,0,0,0"
+       
+             xmlns:vm="using:RandomTick.ViewModels"
+             x:DataType="vm:RepeatModeViewModel"
+             >
+    
+    <Design.DataContext>
+        <vm:RepeatModeViewModel/>
+    </Design.DataContext>
+    
+    <TextBlock Name="Display" TextAlignment="Center" Text="Selected People" Margin="-60,0,0,0" FontSize="35"/>
+    <TextBlock Name="NextDisplay" Text="Next:" Margin="0,0,135,70" FontSize="15" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+    <Button Name="Next" Content="Start" FontSize="18" Width="150" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+    <TextBlock Name="SetDisplay" Text="The Set:" Margin="0,0,135,33" FontSize="15" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+    <ComboBox Name="SetSelect" ItemsSource="{Binding Name}" Margin="0,100,0,25" FontSize="18" Width="150" HorizontalAlignment="Center"/>
+    <TextBlock Name="SpeedDisplay" Text="Speed:" Margin="0,0,135,1" FontSize="15" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+    <Slider Name="SpeedSelect" Minimum="1" Maximum="10" Margin="0,0,0,-14" FontSize="18" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+</Panel>

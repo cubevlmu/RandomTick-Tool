@@ -1,0 +1,70 @@
+{
+	"Info": {
+		"Author": "Cubevlmu",
+		"Name": "RandomTick 中文語言包(台灣)",
+		"Type": 1
+	},
+	"Content": {
+		"RandomTick":  {
+			"Views":  {
+				"Pages": {
+					"Editor": {
+						"EditorHomePage": {
+							"OpenText": "編輯",
+						    "RefreshText": "刷新",
+						    "DeleteText": "刪除",
+						    "NewText": "新建",
+						    "NewSet": "🆕新建簽集",
+						    "NewSetTips": "給你的簽集起一個好名字吧~ :)"
+						},
+						"EditorPage": {
+							"RemoveText": "移除",
+							"AddText": "添加",
+							"SaveText": "保存",
+							"RenameText": "重命名",
+							"DeleteSelfText": "刪除自己",
+						    "AddTickets": "➕添加內容",
+						    "AddTicketsTips": "把你要添加的項輸入到下面的輸入框吧 (支持多行)",
+						    "RenameSet": "🆕重命名集合",
+						    "RenameSetTips": "給你的簽集起一個新的好名字吧~ :)",
+						    "NotSaveTips": "文件暫未保存?是否要保存?"
+						}
+					},
+					"HomePage":  {
+						"DisplayDefault": "請按抽取按鈕抽一個吧！",
+						"NextDefault": "抽取",
+						"SelectedDefault": "選中的"
+					},
+					"RepeatMode": {
+						"SpeedText": "速度",
+						"NextEnd": "停!",
+						"NextStart": "開始!"
+					},
+					"TagEditor": {
+						"HomeTag": "編輯器主頁",
+						"TitleTips": "✏️編輯中 "
+					}
+				},
+				"MainWindow": {
+					"NormalModeText": "默認模式",
+					"RepeatModeText": "循環模式",
+					"EditorText": "簽集編輯",
+					"SettingsText": "軟體設置",
+					"Title": "RandomTagTool V2"
+				}
+			},
+			"Dialogs": {
+				"EmptySelectMsg": "請選擇一個簽集!",
+				"DialogErrorTitle": "❌ 錯誤",
+				"RemoveFailed": "刪除錯誤",
+				"FileNotFound": "🤢找不到這個集合或者文件",
+				"DeleteMsg": "你確定要刪除",
+				"DeleteYes": "是",
+				"DeleteNo": "否",
+				"DeleteTitle": "⚠️警告",
+				"SuccessTitle": "✅成功!",
+				"SuccessContent": "保存成功!"
+			}
+		}
+	}
+}

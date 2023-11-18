@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="App.axaml" value="RandomTick.csproj" />
+        <entry key="RTT2/App.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/MainWindow.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/Editor/EditorHomePage.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/Editor/EditorPage.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/HomePage.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/RepeatMode.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/Settings.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/TagEditor.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="Views/MainWindow.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/Editor/EditorHomePage.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/Editor/EditorPage.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/HomePage.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/RepeatMode.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/Settings.axaml" value="RandomTick.csproj" />
+        <entry key="Views/Pages/TagEditor.axaml" value="RandomTick.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
