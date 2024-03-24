@@ -4,13 +4,18 @@
              xmlns:local="using:RandomTick"
              xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <!-- -->
     <!-- <Application.DataTemplates> -->
     <!--     <local:ViewLocator/> -->
     <!-- </Application.DataTemplates> -->
-  
+
     <Application.Styles>
         <styling:FluentAvaloniaTheme />
     </Application.Styles>
+
+
+    <Application.Resources>
+        <FontFamily x:Key="FluentIcon">/Assets/SFI.ttf#Segoe Fluent Icons</FontFamily>
+    </Application.Resources>
 </Application>

@@ -1,5 +1,6 @@
 ﻿namespace ClsOom.ClassOOM.config.bml;
 
+[Obsolete]
 public struct BmlValue
 {
     public string Key;

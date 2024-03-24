@@ -2,95 +2,91 @@
 
 namespace ClsOom.ClassOOM.config.bml;
 
+[Obsolete]
 public sealed class BmlArray
 {
     public BmlArray(PacketStream stream)
     {
-        this.stream = stream;
-        ArrayLength = stream.ReadByte();
+        this._stream = stream;
+        _arrayLength = stream.ReadByte();
         ReadArray();
     }
     public BmlArray()
-        => stream = new PacketStream();
+        => _stream = new PacketStream();
         
     private void ReadArray()
     {
-        for(int i = 0; i <= ArrayLength; i++)
+        for(var i = 0; i <= _arrayLength; i++)
         {
-            BMLType type = (BMLType) stream.ReadByte();
-            object obj = Read(type);
-            Array.Add(new BmlArrayValue(type, obj));
+            var type = (BmlType) _stream.ReadByte();
+            var obj = Read(type);
+            _array.Add(new BmlArrayValue(type, obj));
         }
-        GC.Collect();
     }
 
-    private object Read(BMLType type)
+    private object Read(BmlType type)
     {
         switch (type)
         {
-            case BMLType.STRING: return stream.ReadString();
-            case BMLType.INT: return stream.ReadInt32();
-            case BMLType.BYTE: return stream.ReadByte();
-            case BMLType.BOBJ:
-                var buffer = new byte[stream.ReadInt32()];
-                stream.ReadBytes(ref buffer);
+            case BmlType.String: return _stream.ReadString();
+            case BmlType.Int: return _stream.ReadInt32();
+            case BmlType.Byte: return _stream.ReadByte();
+            case BmlType.Bobj:
+                var buffer = new byte[_stream.ReadInt32()];
+                _stream.ReadBytes(ref buffer);
                 return buffer;
-            case BMLType.BARR:
+            case BmlType.Barr:
                 //TODO
                 break;
-            case BMLType.BYTES:
-                var bf1 = new byte[stream.ReadInt32()];
-                stream.ReadBytes(ref bf1);
+            case BmlType.Bytes:
+                var bf1 = new byte[_stream.ReadInt32()];
+                _stream.ReadBytes(ref bf1);
                 return bf1;
-            case BMLType.BOOL:
+            case BmlType.Bool:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
-        GC.Collect();
         return null;
     }
 
     public void Add(string obj)
-        => Array.Add(new BmlArrayValue(BMLType.STRING, obj));
+        => _array.Add(new BmlArrayValue(BmlType.String, obj));
     public void Add(int obj)
-        => Array.Add(new BmlArrayValue(BMLType.INT, obj));
+        => _array.Add(new BmlArrayValue(BmlType.Int, obj));
     public void Add(BmlObject obj)
-        => Array.Add(new BmlArrayValue(BMLType.BOBJ, obj));
+        => _array.Add(new BmlArrayValue(BmlType.Bobj, obj));
     public void Add(BmlArray obj)
-        => Array.Add(new BmlArrayValue(BMLType.BARR, obj));
+        => _array.Add(new BmlArrayValue(BmlType.Barr, obj));
 
     private void Write()
     {
-        stream.Clear();
-        stream.WriteByte((byte) Array.Count);
-        foreach(var item in Array)
+        _stream.WriteByte((byte) _array.Count);
+        foreach(var item in _array)
         {
-            stream.WriteByte((byte) item.Type);
+            _stream.WriteByte((byte) item.Type);
             switch (item.Type)
             {
-                case BMLType.STRING:
-                    stream.WriteString(item.Value as string);
+                case BmlType.String:
+                    _stream.WriteString((item.Value as string)!);
                     break;
-                case BMLType.INT:
-                    stream.WriteInt32((int) item.Value);
+                case BmlType.Int:
+                    _stream.WriteInt32((int) item.Value);
                     break;
-                case BMLType.BOBJ:
+                case BmlType.Bobj:
                     BmlObject obj = (BmlObject)item.Value;
                     byte[] content = obj.GetContent();
-                    stream.WriteInt32(content.Length);
-                    stream.WriteBytes(content);
+                    _stream.WriteInt32(content.Length);
+                    _stream.WriteBytes(content);
                     break;
-                case BMLType.BARR:
+                case BmlType.Barr:
                     //TODO
                     break;
-                case BMLType.BYTES:
+                case BmlType.Bytes:
                     byte[] data = (byte[])item.Value;
-                    stream.WriteInt32(data.Length);
-                    stream.WriteBytes(data);
+                    _stream.WriteInt32(data.Length);
+                    _stream.WriteBytes(data);
                     break;
-                case BMLType.BYTE:
-                    stream.WriteByte((byte) item.Value);
+                case BmlType.Byte:
+                    _stream.WriteByte((byte) item.Value);
                     break;
             }
         }
@@ -100,17 +96,15 @@ public sealed class BmlArray
     public byte[] GetContent()
     {
         Write();
-        return stream.GetBytes();
+        return _stream.GetBytes();
     }
 
     ~BmlArray()
     {
-        stream.Dispose();
-        GC.SuppressFinalize(stream);
-        GC.Collect();
+        _stream.Dispose();
     }
 
-    private readonly int ArrayLength;
-    private readonly List<BmlArrayValue> Array = new();
-    private readonly PacketStream stream;
+    private readonly int _arrayLength;
+    private readonly List<BmlArrayValue> _array = new();
+    private readonly PacketStream _stream;
 }

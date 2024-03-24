@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using ClsOom.ClassOOM.il8n;
 using RandomTick.Models;
 using RandomTick.ViewModels.Editor;
 
@@ -12,24 +11,8 @@ public partial class EditorHomePage : Panel, IUiEventManage
     private readonly TagEditor _editor;
     private readonly EditorHomePageViewModel _context;
 
-    [Il8N] public string? OpenText;
-    [Il8N] public string? RefreshText;
-    [Il8N] public string? DeleteText;
-    [Il8N] public string? NewText;
-    
-    
-    [Il8N("RandomTick.Dialogs.DeleteMsg")] public string? DeleteMsg;
-    [Il8N("RandomTick.Dialogs.DeleteYes")] public string? DeleteYes;
-    [Il8N("RandomTick.Dialogs.DeleteNo")] public string? DeleteNo;
-    [Il8N("RandomTick.Dialogs.DeleteTitle")] public string? DeleteTitle;
-
-    [Il8N] public string? NewSet;
-    [Il8N] public string? NewSetTips;
-    
     public EditorHomePage(TagEditor editor)
     {
-        App.RTTApp.Server.UpdateFields(this);
-        
         _editor = editor;
         DataContext = _context = new EditorHomePageViewModel();
         
@@ -42,22 +25,21 @@ public partial class EditorHomePage : Panel, IUiEventManage
         Files.DoubleTapped += FilesOnDoubleTapped;
         
         OpenBtn.Click += OpenBtnOnClick;
-        OpenBtn.Label = OpenText;
         
         Files.ItemsSource = _context.Files;
         RefreshBtn.Click += RefreshBtnOnClick;
-        RefreshBtn.Label = RefreshText;
         
         DeleteBtn.Click += DeleteBtnOnClick;
-        DeleteBtn.Label = DeleteText;
         
         NewBtn.Click += NewBtnOnClick;
-        NewBtn.Label = NewText;
+
+        if (Files.Items.Count > 0)
+            Files.SelectedIndex = 0;
     }
 
     private async void NewBtnOnClick(object? sender, RoutedEventArgs e)
     {
-        var name = await DialogExtend.ShowInputDialog(NewSet!, NewSetTips!);
+        var name = await DialogExtend.ShowInputDialog("🆕新建签集", "给你的签集起一个好名字吧~ :)");
         if(name.Length <= 0) return;
         var s = _context.GetService();
         _ = s.NewSet(name);
@@ -75,11 +57,15 @@ public partial class EditorHomePage : Panel, IUiEventManage
     
     private async void DeleteBtnOnClick(object? sender, RoutedEventArgs e)
     {
-        if(Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        if (Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        {
+            DialogExtend.ShowErrorDialog("请选择一个班级来继续！");
             return;
+        }
+
         var f = (string)Files.SelectedItem;
 
-        var r = await DialogExtend.ShowSelectDialog($"{DeleteMsg} {f}?", $"{DeleteYes}", $"{DeleteNo}", $"{DeleteTitle}");
+        var r = await DialogExtend.ShowSelectDialog($"是否要删除班级 {f}?", "是的", "不要", "删除班级确认");
         if(!r) return;
         
         var s = _context.GetService();
@@ -92,16 +78,22 @@ public partial class EditorHomePage : Panel, IUiEventManage
 
     private void OpenBtnOnClick(object? sender, RoutedEventArgs e)
     {
-        if(Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        if (Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        {
+            DialogExtend.ShowErrorDialog("请选择一个班级来继续！");
             return;
+        }
         var f = (string)Files.SelectedItem;
         _editor.OpenDoc(f);
     }
 
     private void FilesOnDoubleTapped(object? sender, TappedEventArgs e)
     {
-        if(Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        if (Files.SelectedIndex == -1 || Files.SelectedItem == null)
+        {
+            DialogExtend.ShowErrorDialog("请选择一个班级来继续！");
             return;
+        }
         var f = (string)Files.SelectedItem;
         _editor.OpenDoc(f);
     }

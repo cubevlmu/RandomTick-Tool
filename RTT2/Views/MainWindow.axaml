@@ -6,39 +6,80 @@
         MinHeight="450" MinWidth="800"
         
         windowing:AppWindow.AllowInteractionInTitleBar="True"
+        SystemDecorations="Full"
+        ExtendClientAreaChromeHints="NoChrome"
         
         x:Class="RandomTick.Views.MainWindow"
         
         xmlns:vm="using:RandomTick.ViewModels"
         x:DataType="vm:MainWindowViewModel"
         
-        Icon="/Assets/avalonia-logo.ico"
         Title="RandomTick">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <ui:NavigationView
-        IsSettingsVisible="False"
-        PaneTitle="RandomTick Tool"
-        IsPaneOpen="False"
-        Name="NavigationView"
-        Header="{Binding PageHeader}"
+    <Grid RowDefinitions="Auto,*">
+        <Grid Name="TitleBarHost"
+              ColumnDefinitions="Auto,Auto,*,Auto"
+              Background="Transparent">
+            <Image Margin="12 4"
+                   IsHitTestVisible="False"
+                   Source="/Assets/aaaaa.ico"
+                   Width="18" Height="18"
+                   DockPanel.Dock="Left"
+                   Name="WindowIcon"
+                   RenderOptions.BitmapInterpolationMode="HighQuality">
+            </Image>
+
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                       FontSize="12"
+                       IsHitTestVisible="False"
+                       VerticalAlignment="Center"
+                       Grid.Column="1"
+                       Padding="0,3,0,0"
+                       >
+            </TextBlock>
+
+            <Border Grid.Column="2"
+                    Padding="22"
+                    Margin="0,0,100,0"/>
+        </Grid>
+
         
-        SelectedItem="{Binding DefaultItem}"
-        MenuItemsSource="{Binding NavMenu}"
-        FooterMenuItemsSource="{Binding NavFooter}"
+    
+        <ui:NavigationView
+            Grid.Row="1"
+            IsSettingsVisible="False"
+            PaneTitle="RandomTick Tool"
+            IsPaneOpen="False"
+            Name="NavigationView"
+            Header="{Binding PageHeader}"
+        
+            SelectedItem="{Binding DefaultItem}"
+            MenuItemsSource="{Binding NavMenu}"
+            FooterMenuItemsSource="{Binding NavFooter}"
         >
-        <ui:NavigationView.MenuItemTemplate>
-            <DataTemplate DataType="vm:NavItem">
-                <ui:NavigationViewItem 
-                    Content="{Binding Text}"
-                    IconSource="{Binding Icon}"
-                    />
-            </DataTemplate>
-        </ui:NavigationView.MenuItemTemplate>
+            <ui:NavigationView.HeaderTemplate>
+                <DataTemplate DataType="vm:NavItem">
+                    <TextBlock Text="{Binding Text}" Padding="3"/>
+                </DataTemplate>
+            </ui:NavigationView.HeaderTemplate>
+            <ui:NavigationView.MenuItemTemplate>
+                <DataTemplate DataType="vm:NavItem">
+                    <ui:NavigationViewItem 
+                        Content="{Binding Text}"
+                    >
+                        <ui:NavigationViewItem.IconSource>
+                            <ui:FontIconSource FontFamily="{StaticResource FluentIcon}"
+                                               Glyph="{Binding Icon}"/>
+                        </ui:NavigationViewItem.IconSource>
+                    </ui:NavigationViewItem>
+                </DataTemplate>
+            </ui:NavigationView.MenuItemTemplate>
         
-        <ui:Frame Margin="57.5,10,0,0" Name="Frame" Content="{Binding PageContent}"/>
-    </ui:NavigationView>
+            <ui:Frame Margin="57.5,10,0,0" Name="Frame" Content="{Binding PageContent}"/>
+        </ui:NavigationView>
+    </Grid>
 </Window>

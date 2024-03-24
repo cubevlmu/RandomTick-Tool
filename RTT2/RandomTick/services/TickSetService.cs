@@ -2,39 +2,60 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ClsOom.ClassOOM.service;
 using FluentAvalonia.Core;
 using RandomTick.ClassOOM;
 using RandomTick.ClassOOM.service;
 using RandomTick.RandomTick.models;
+using RandomTick.RandomTick.ticket;
 using ClassOomServer = ClsOom.ClassOOM.ClassOomServer;
 
 namespace RandomTick.RandomTick.services;
 
 public class TickSetService : IService
 {
+    public readonly TicketCheatFile? CheatFile;
+    
     public TickSetService()
     {
+        try
+        {
+            CheatFile = new TicketCheatFile();
+        }
+        catch (Exception)
+        {
+            CheatFile = null;
+        }
         var instance = this;
         _dfInstance = new DelegatedField<TickSetService>(ref instance);
     }
 
+    public async Task Setup()
+    {
+        if (CheatFile != null) 
+            await CheatFile.Setup();
+    }
+
     public void OnLoad(ClassOomServer s)
     {
-        s.GetDataDir(out var dirPath);
-        var dir = new DirectoryInfo($"{dirPath}//sets");
-        if(!dir.Exists)
-            dir.Create();
-        var files = dir.GetFiles();
-        foreach (var file in files)
+        _ = Task.Run(() =>
         {
-            if (file.Extension != ".set") continue;
-            TicketSet set = new(file.FullName);
-            _sets.Add(set.Name, set);
-        }
+            s.GetDataDir(out var dirPath);
+            var dir = new DirectoryInfo($"{dirPath}//sets");
+            if(!dir.Exists)
+                dir.Create();
+            var files = dir.GetFiles();
+            foreach (var file in files)
+            {
+                if (file.Extension != ".set") continue;
+                TicketSet set = new(file.FullName);
+                _sets.Add(set.Name, set);
+            }
 
-        s.GetLogger("RTT", out var logger);
-        logger.Info("Loaded {0} Sets", _sets.Count);
+            s.GetLogger("RTT", out var logger);
+            logger.Info("Loaded {0} Sets", _sets.Count);
+        });
     }
     
     public void OnKill(ClassOomServer s)

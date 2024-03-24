@@ -4,86 +4,87 @@ using ClsOom.ClassOOM.model.Tools;
 
 namespace ClsOom.ClassOOM.config.bml;
 
+[Obsolete]
 public sealed class BmlObject : IDisposable
 {
     public BmlObject(PacketStream stream)
     {
-        this.stream = stream;
+        this._stream = stream;
         GC.KeepAlive(stream);
     }
     public BmlObject(byte[] obj)
     {
-        this.stream = new PacketStream(Gzip.Decompress(obj));
-        GC.KeepAlive(stream);
+        this._stream = new PacketStream(Gzip.Decompress(obj));
+        GC.KeepAlive(_stream);
     }
     public BmlObject()
     {
-        stream = new PacketStream();
-        GC.KeepAlive(stream);
+        _stream = new PacketStream();
+        GC.KeepAlive(_stream);
     }
         
     public void WriteObject(string key, int obj)
-        => Write(BMLType.INT, obj, key);
+        => Write(BmlType.Int, obj, key);
     public void WriteObject(string key, bool obj)
-        => Write(BMLType.BOOL, obj, key);
+        => Write(BmlType.Bool, obj, key);
     public void WriteObject(string key, string obj)
-        => Write(BMLType.STRING, obj, key);
+        => Write(BmlType.String, obj, key);
     public void WriteObject(string key, BmlObject obj)
-        => Write(BMLType.BOBJ, obj, key);
+        => Write(BmlType.Bobj, obj, key);
     public void WriteObject(string key, byte[] obj)
-        => Write(BMLType.BYTES, obj, key);
+        => Write(BmlType.Bytes, obj, key);
     public void WriteObject(string key, byte obj)
-        => Write(BMLType.BYTE, obj, key);
+        => Write(BmlType.Byte, obj, key);
 
-    private void Write(BMLType type, object value, string key)
+    private void Write(BmlType type, object value, string key)
     {
-        stream.WriteByte((byte)type);
+        _stream.WriteByte((byte)type);
 
-        byte[] sdata = Encoding.UTF8.GetBytes(key);
-        if (sdata.Length > 255)
+        var dd = Encoding.UTF8.GetBytes(key);
+        if (dd.Length > 255)
             throw new Exception("BML Tag Too Long~");
-        stream.WriteByte((byte)sdata.Length);
-        stream.WriteBytes(sdata);
+        _stream.WriteByte((byte)dd.Length);
+        _stream.WriteBytes(dd);
 
         switch (type)
         {
-            case BMLType.STRING:
-                stream.WriteLString(value as string);
+            case BmlType.String:
+                _stream.WriteLString(value as string);
                 break;
-            case BMLType.INT:
-                stream.WriteInt32((int)value);
+            case BmlType.Int:
+                _stream.WriteInt32((int)value);
                 break;
-            case BMLType.BOBJ:
-                byte[] buffer = (value as BmlObject).GetContent();
-                stream.WriteInt32(buffer.Length);
-                stream.WriteBytes(buffer);
+            case BmlType.Bobj:
+                byte[] buffer = (value as BmlObject)?.GetContent();
+                _stream.WriteInt32(buffer.Length);
+                _stream.WriteBytes(buffer);
                 break;
-            case BMLType.BARR:
+            case BmlType.Barr:
                 byte[] data = (value as BmlArray).GetContent();
-                stream.WriteInt32(data.Length);
-                stream.WriteBytes(data);
+                _stream.WriteInt32(data.Length);
+                _stream.WriteBytes(data);
                 break;
-            case BMLType.BYTES:
+            case BmlType.Bytes:
                 byte[] bytes = value as byte[];
-                stream.WriteInt32(bytes.Length);
-                stream.WriteBytes(bytes);
+                _stream.WriteInt32(bytes.Length);
+                _stream.WriteBytes(bytes);
                 break;
-            case BMLType.BYTE:
-                stream.WriteByte((byte)value);
+            case BmlType.Byte:
+                _stream.WriteByte((byte)value);
                 break;
-            case BMLType.BOOL:
-                stream.WriteBoolean((bool)value);
+            case BmlType.Bool:
+                _stream.WriteBoolean((bool)value);
                 break;
         }
     }
 
     public BmlValue ReadNext()
     {
-        byte id = stream.ReadByte();
-        BMLType type = (BMLType)id;
+        byte id = _stream.ReadByte();
+        BmlType type = (BmlType)id;
             
-        byte[] buffer = new byte[stream.ReadByte()];
-        stream.ReadBytes(ref buffer);
+        byte[] buffer = new byte[_stream.ReadByte()];
+        _stream.ReadBytes(ref buffer);
 
         string key = Encoding.UTF8.GetString(buffer);
         var obj = Read(type);
@@ -91,28 +92,28 @@ public sealed class BmlObject : IDisposable
         return new BmlValue(key, obj);
     }
 
-    private object Read(BMLType type)
+    private object Read(BmlType type)
     {
         switch (type)
         {
-            case BMLType.STRING: return stream.ReadLString(); 
-            case BMLType.INT:    return stream.ReadInt32();
-            case BMLType.BYTE:   return stream.ReadByte();
-            case BMLType.BOBJ:
-                byte[] buffer = new byte[stream.ReadInt32()];
-                stream.ReadBytes(ref buffer);
+            case BmlType.String: return _stream.ReadLString(); 
+            case BmlType.Int:    return _stream.ReadInt32();
+            case BmlType.Byte:   return _stream.ReadByte();
+            case BmlType.Bobj:
+                byte[] buffer = new byte[_stream.ReadInt32()];
+                _stream.ReadBytes(ref buffer);
                 return buffer;
-            case BMLType.BARR:
-                byte[] data = new byte[stream.ReadInt32()];
-                stream.ReadBytes(ref data);
+            case BmlType.Barr:
+                byte[] data = new byte[_stream.ReadInt32()];
+                _stream.ReadBytes(ref data);
                 return data;
-            case BMLType.BYTES:
-                byte[] bf1 = new byte[stream.ReadInt32()];
-                stream.ReadBytes(ref bf1);
+            case BmlType.Bytes:
+                byte[] bf1 = new byte[_stream.ReadInt32()];
+                _stream.ReadBytes(ref bf1);
                 return bf1;
-            case BMLType.BOOL:
+            case BmlType.Bool:
                 bool res = false;
-                stream.ReadBoolean(ref res);
+                _stream.ReadBoolean(ref res);
                 return res;
         }
         GC.Collect();
@@ -120,29 +121,29 @@ public sealed class BmlObject : IDisposable
     }
 
     public byte[] GetContent()
-        => stream.GetBytes();
+        => _stream.GetBytes();
 
     public byte[] GetData()
         => Gzip.CompressBytes(GetContent());
 
     public void Dispose()
     {
-        stream.Dispose();
-        GC.SuppressFinalize(stream);
+        _stream.Dispose();
+        GC.SuppressFinalize(_stream);
         GC.Collect();
     }
 
     ~BmlObject() => Dispose();
-    private readonly PacketStream stream;
+    private readonly PacketStream _stream;
 }
 
-public enum BMLType
+public enum BmlType
 {
-    STRING = 0,
-    INT    = 1,
-    BOBJ   = 2,
-    BARR   = 3,
-    BYTES  = 4,
-    BYTE   = 5,
-    BOOL   = 6
+    String = 0,
+    Int    = 1,
+    Bobj   = 2,
+    Barr   = 3,
+    Bytes  = 4,
+    Byte   = 5,
+    Bool   = 6
 }

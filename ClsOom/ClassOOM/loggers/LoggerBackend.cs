@@ -8,14 +8,21 @@ public class LoggerBackend : ILogger
     private readonly string _name;
     private readonly ILoggerService[] _services;
 
-    public LoggerBackend(LogRecordService service, string name)
+    public LoggerBackend(LogRecordService? service, string name)
     {
         _name = name;
-        _services = new ILoggerService[]
+        if (service == null)
         {
-            new LogOutputService(),
-            service
-        };
+            _services = Array.Empty<ILoggerService>();
+        }
+        else
+        {
+            _services = new ILoggerService[]
+            {
+                new LogOutputService(),
+                service
+            };
+        }
     }
     
     private void Log(LogType type, string msg)

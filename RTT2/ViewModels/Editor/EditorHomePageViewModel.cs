@@ -10,7 +10,7 @@ public class EditorHomePageViewModel : ViewModelBase
     
     public EditorHomePageViewModel()
     {
-        App.RTTApp.Server.GetService("TickSetService", out TickSetService? v);
+        App.RttApp.Server.GetService("TickSetService", out TickSetService? v);
         _service = v ?? throw new Exception("Error To Load Data");
         var names = v.GetSetsNames;
         Files = names;

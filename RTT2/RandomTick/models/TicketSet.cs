@@ -33,7 +33,7 @@ public class TicketSet
     
     public TicketSet(string name, List<string>? tickets = null)
     {
-        App.RTTApp.Server.GetDataSubDir("sets", out var s);
+        App.RttApp.Server.GetDataSubDir("sets", out var s);
         _file = $"{s}//{name}.set";
         _name = name;
         _tickets = tickets ?? new List<string>();
@@ -55,10 +55,10 @@ public class TicketSet
     
     public async void Save()
     {
-        using PacketStream stm = new();
+        await using PacketStream stm = new();
         stm.WriteString(_name);
         
-        stm.WriteVarInt(_tickets.Count);
+        await stm.WriteVarIntAsync(_tickets.Count);
         _tickets.ForEach(item =>
         {
             stm.WriteString(item);
@@ -74,7 +74,7 @@ public class TicketSet
         if(File.Exists(_file))
             File.Delete(_file);
         
-        App.RTTApp.Server.GetService("TickSetService", out TickSetService? v);
+        App.RttApp.Server.GetService("TickSetService", out TickSetService? v);
         var vs = v ?? throw new Exception("Error To Load Data");
         vs.RemoveSet(this);
         _tickets.Clear();

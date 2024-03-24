@@ -15,12 +15,12 @@
     
     <controls:CommandBar DefaultLabelPosition="Right">
         <controls:CommandBar.PrimaryCommands>
-            <controls:CommandBarButton Name="SaveBtn" IconSource="Save" Label="Save" />
-            <controls:CommandBarButton Name="RenameBtn" IconSource="Rename" Label="Rename" />
-            <controls:CommandBarButton Name="DeleteSelfBtn" IconSource="Delete" Label="Delete Self" />
+            <controls:CommandBarButton Name="SaveBtn" IconSource="Save" Label="保存班级" />
+            <controls:CommandBarButton Name="RenameBtn" IconSource="Rename" Label="重命名班级" />
+            <controls:CommandBarButton Name="DeleteSelfBtn" IconSource="Delete" Label="删除班级" />
             <controls:CommandBarSeparator />
-            <controls:CommandBarButton Name="RemoveBtn" IconSource="Remove" Label="Remove" />
-            <controls:CommandBarButton Name="AddBtn" IconSource="Add" Label="Add" />
+            <controls:CommandBarButton Name="RemoveBtn" IconSource="Remove" Label="删除成员" />
+            <controls:CommandBarButton Name="AddBtn" IconSource="Add" Label="添加成员" />
         </controls:CommandBar.PrimaryCommands>
     </controls:CommandBar>
     <ListBox Margin="5, 50, 5, 5" Name="TicketDisplay"/>

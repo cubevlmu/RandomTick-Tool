@@ -11,9 +11,9 @@ public class JsonLang : Il8NReader
         var root = JObject.Parse(r);
         var info = root?["Info"];
         if(info == null) goto Error;
-        var author = info["Author"].ToString();
-        var name = info["Name"].ToString();
-        var type = (Il8NType)byte.Parse(info["Type"].ToString() ?? throw new Exception("Format Error"));
+        var author = info["Author"]!.ToString();
+        var name = info["Name"]!.ToString();
+        var type = (Il8NType)byte.Parse(info["Type"]!.ToString() ?? throw new Exception("Format Error"));
         Info = new Il8NInfo
         {
             Author = author, Name = name, Type = type

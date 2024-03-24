@@ -1,13 +1,9 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using ClsOom.ClassOOM.il8n;
 using RandomTick.Models;
+using RandomTick.RandomTick.seat;
+using RandomTick.RandomTick.ticket;
 
 namespace RandomTick.Views.Pages;
 
@@ -23,7 +19,7 @@ public partial class Settings : Panel, IUiEventManage
     public void OnInit()
     {
         VSDevelop.IsCheckedChanged += VSDevelopOnIsCheckedChanged;
-        VSDevelop.IsChecked = App.RTTApp.Config.IsDebugMode;
+        VSDevelop.IsChecked = App.RttApp.Config.IsDebugMode;
         SaveLang.Click += SaveLangOnClick;
         CheatEntrance.DoubleTapped += CheatEntranceOnClick;
 
@@ -37,24 +33,48 @@ public partial class Settings : Panel, IUiEventManage
         if (_cd != 3) return;
         _cd = 0;
             
-        if(!App.RTTApp.Config.CheatMode) Process.Start("https://www.bilibili.com/video/BV1he4y1w7wB");
-        var r = await DialogExtend.ShowInputDialog("CheatMode", "Write Down The Cheaters Below");
-        var parts = r.Split("\n");
-        App.RTTApp.Server.GetDataSubDir("チート", out var c);
-        File.WriteAllLines($"{c}//悪質なチーター", parts);
+        if(!App.RttApp.Config.CheatMode) return;
+
+        var ii = await DialogExtend.ShowComboDialog("选择模式", "选择一个模式", new[] { "抽签作弊", "排座位作弊" });
+        switch (ii)
+        {
+            case -1:
+                return;
+            case 0:
+            {
+                var rr = await DialogExtend.ShowInputDialog("输入白名单", "每行输入一个名字，使用回车分割:");
+                var lines = rr.Split('\n');
+                var ec = new TicketCheatEncoder(lines);
+                await ec.Begin();
+                await ec.End();
+                DialogExtend.ShowErrorDialog("pf文件生成成功", "成功");
+                break;
+            }
+            case 1:
+            {
+                var wr = await DialogExtend.ShowInputDialog("输入白名单", "每行输入两个名字，用-分开，座位挨着的两个，使用回车分割: 例如: a-b ");
+                var br = await DialogExtend.ShowInputDialog("输入黑名单", "每行输入两个名字，用-分开，座位分开的两个，使用回车分割: 例如: a-b ");
+
+                var rr = new CheatEncoder(wr.Split('\n'), br.Split('\n'));
+                await rr.End();
+            
+                DialogExtend.ShowErrorDialog("pf文件生成成功", "成功");
+                break;
+            }
+        }
     }
 
     private void SaveLangOnClick(object? sender, RoutedEventArgs e)
     {
         var type = (Il8NType?)VSLanguages.SelectedItem ?? Il8NType.ZhCn;
-        App.RTTApp.Server.SetSelectedType(type);
-        App.RTTApp.Config.SelectedLanguage.Set(type);
-        DialogExtend.ShowErrorDialog("Although You Already Changed The Language Settings, But It May Take Whiles To Apply, We Suggest That You Can Restart This App", "✅Succeed!");
+        App.RttApp.Server.SetSelectedType(type);
+        App.RttApp.Config.SelectedLanguage.Set(type);
+        DialogExtend.ShowErrorDialog("虽然您修改了配置，但是需要重启程序才能生效", "✅成功!");
     }
 
     private void UpdateLanguageSelector()
     {
-        App.RTTApp.Server.GetExistTypes(out var types)
+        App.RttApp.Server.GetExistTypes(out var types)
             .GetSelectedType(out var s);
         VSLanguages.ItemsSource = types;
         VSLanguages.SelectedIndex = types.IndexOf(s);
@@ -63,7 +83,7 @@ public partial class Settings : Panel, IUiEventManage
     private void VSDevelopOnIsCheckedChanged(object? sender, RoutedEventArgs e)
     {
         var ck = VSDevelop.IsChecked ?? false;
-        App.RTTApp.Config.IsDebugMode.Set(ck);
+        App.RttApp.Config.IsDebugMode.Set(ck);
     }
 
     public void OnKill()

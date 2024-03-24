@@ -7,7 +7,6 @@ public class Il8NFile
         server.GetDataSubDir("il8n", out var dir);
         if (!File.Exists($"{dir}//{name}")) 
             throw new Exception("Lang File Can't Find");
-        _name = name;
 
         var data = File.ReadAllBytes($"{dir}//{name}");
         var r = reader.ReadAll(data);
@@ -30,5 +29,4 @@ public class Il8NFile
 
     public readonly Il8NInfo Info;
     private readonly Dictionary<string, string> _items;
-    private readonly string _name;
 }

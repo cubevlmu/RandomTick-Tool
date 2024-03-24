@@ -13,55 +13,22 @@ public partial class EditorPage : Panel, IUiEventManage
     private readonly EditorPageViewModel _context;
     private bool _isEdited;
 
-    [Il8N] public string? RemoveText;
-    [Il8N] public string? AddText;
-    [Il8N] public string? SaveText;
-    [Il8N] public string? RenameText;
-    [Il8N] public string? DeleteSelfText;
-
-    [Il8N] public string? AddTickets;
-    [Il8N] public string? AddTicketsTips;
-
-    [Il8N("RandomTick.Dialogs.RemoveFailed")] 
-    public string? RemoveFailed;
-    [Il8N("RandomTick.Dialogs.DialogErrorTitle")] 
-    public string? DialogErrorTitle;
-
-    [Il8N] public string? RenameSet;
-    [Il8N] public string? RenameSetTips;
-    [Il8N] public string? NotSaveTips;
-    
-    [Il8N("RandomTick.Dialogs.DeleteMsg")] public string? DeleteMsg;
-    [Il8N("RandomTick.Dialogs.DeleteYes")] public string? DeleteYes;
-    [Il8N("RandomTick.Dialogs.DeleteNo")] public string? DeleteNo;
-    [Il8N("RandomTick.Dialogs.DeleteTitle")] public string? DeleteTitle;
-    
-    [Il8N("RandomTick.Dialogs.SuccessContent")] public string? SaveSuccess;
-    [Il8N("RandomTick.Dialogs.SuccessTitle")] public string? SuccessTitle;
-    
-
     public void OnInit()
     {
         TicketDisplay.ItemsSource = _context.ContentItems;
         RemoveBtn.Click += RemoveBtnOnClick;
-        RemoveBtn.Label = RemoveText;
         
         AddBtn.Click += AddBtnOnClick;
-        AddBtn.Label = AddText;
         
         SaveBtn.Click += SaveBtnOnClick;
-        SaveBtn.Label = SaveText;
         
         RenameBtn.Click += RenameBtnOnClick;
-        RenameBtn.Label = RenameText;
         
         DeleteSelfBtn.Click += DeleteSelfBtnOnClick;
-        DeleteSelfBtn.Label = DeleteSelfText;
     }
     
     public EditorPage(TicketSet set)
     {
-        App.RTTApp.Server.UpdateFields(this);
         _set = set;
 
         DataContext = _context = new EditorPageViewModel(set);
@@ -74,7 +41,7 @@ public partial class EditorPage : Panel, IUiEventManage
         _isEdited = false;
         _set.ApplyAll();
         _set.Save();
-        DialogExtend.ShowErrorDialog(SaveSuccess!, SuccessTitle!);
+        DialogExtend.ShowErrorDialog("保存班级成功！", "保存成功");
     }
 
     public async void CallSave()
@@ -82,14 +49,14 @@ public partial class EditorPage : Panel, IUiEventManage
         if(IsEnabled == false)
             return;
         if (!_isEdited) return;
-        var r = await DialogExtend.ShowSelectDialog(NotSaveTips!);
+        var r = await DialogExtend.ShowSelectDialog("您确认要关闭编辑器吗？这个班级还没有保存!");
         if(r) 
             Save();
     }
 
     private async void DeleteSelfBtnOnClick(object? sender, RoutedEventArgs e)
     {
-        var r = await DialogExtend.ShowSelectDialog(DeleteMsg!, DeleteYes!, DeleteNo!, DeleteTitle!);
+        var r = await DialogExtend.ShowSelectDialog("您确定要删除这个班级吗？", "是的", "不要", "删除警告");
         if (!r) return;
         _set.DeleteSelf();
         IsEnabled = false;
@@ -99,7 +66,7 @@ public partial class EditorPage : Panel, IUiEventManage
     private async void RenameBtnOnClick(object? sender, RoutedEventArgs e)
     {
         _isEdited = true;
-        var text = await DialogExtend.ShowInputDialog(RenameSet!, RenameSetTips!);
+        var text = await DialogExtend.ShowInputDialog("重命名班级", "请输入班级的新名称:");
         if(text.Length <= 0) return;
         _set.Rename(text);
     }
@@ -110,7 +77,7 @@ public partial class EditorPage : Panel, IUiEventManage
     private async void AddBtnOnClick(object? sender, RoutedEventArgs e)
     {
         _isEdited = true;
-        var text = await DialogExtend.ShowInputDialog(AddTickets!, AddTicketsTips!);
+        var text = await DialogExtend.ShowInputDialog("添加成员", "请输入班级成员(可以多行输入)");
         if(text.Length <= 0) return;
         var items = text.Split("\n");
         
@@ -128,7 +95,7 @@ public partial class EditorPage : Panel, IUiEventManage
         _set.Remove(str);
         
         if(!r) 
-            DialogExtend.ShowErrorDialog(RemoveFailed!, DialogErrorTitle!);
+            DialogExtend.ShowErrorDialog("删除班级文件失败，请查看是否仍存在在列表中!", "删除失败");
         
         UpdateListValue();
     }

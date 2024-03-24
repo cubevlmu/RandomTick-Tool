@@ -1,0 +1,50 @@
+<Panel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Tag="Home"
+             x:Class="RandomTick.Views.Pages.NormalMode"
+       
+             xmlns:vm="using:RandomTick.ViewModels"
+             x:DataType="vm:HomePageViewModel"
+             >
+    
+    <Design.DataContext>
+        <vm:HomePageViewModel/>
+    </Design.DataContext>
+    
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+        <TextBlock Name="Display" 
+                   Text="请点击下面的按钮来抽取吧" 
+                   FontSize="35"
+                   Padding="0,10,0,0"
+                   />
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Spacing="10" HorizontalAlignment="Center">
+            <TextBlock Name="NextDisplay" 
+                       Text="操作:" 
+                       FontSize="15" 
+                       Padding="0,5,0,0"
+                       VerticalAlignment="Center"
+                       />
+            <Button Name="Next" 
+                    Content="抽取" 
+                    FontSize="15"
+                    Width="150"
+                    Padding="0,10,0,6"
+                    />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+            <TextBlock Name="TheSetDisplay" 
+                       Text="班级:" 
+                       FontSize="15" 
+                       VerticalAlignment="Center"
+                       Padding="0,5,0,0"
+                       />
+            <ComboBox Name="SetSelect" 
+                      FontSize="15"
+                      Width="150"
+                      ItemsSource="{Binding Name}"/>
+        </StackPanel>
+    </StackPanel>
+</Panel>

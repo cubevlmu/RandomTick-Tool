@@ -10,8 +10,10 @@
         <entry key="RTT2/Views/Pages/Editor/EditorPage.axaml" value="RTT2/RandomTick.csproj" />
         <entry key="RTT2/Views/Pages/HomePage.axaml" value="RTT2/RandomTick.csproj" />
         <entry key="RTT2/Views/Pages/RepeatMode.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/SeatPage.axaml" value="RTT2/RandomTick.csproj" />
         <entry key="RTT2/Views/Pages/Settings.axaml" value="RTT2/RandomTick.csproj" />
         <entry key="RTT2/Views/Pages/TagEditor.axaml" value="RTT2/RandomTick.csproj" />
+        <entry key="RTT2/Views/Pages/TagTool.axaml" value="RTT2/RandomTick.csproj" />
         <entry key="Views/MainWindow.axaml" value="RandomTick.csproj" />
         <entry key="Views/Pages/Editor/EditorHomePage.axaml" value="RandomTick.csproj" />
         <entry key="Views/Pages/Editor/EditorPage.axaml" value="RandomTick.csproj" />

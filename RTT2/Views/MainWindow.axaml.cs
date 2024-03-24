@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Avalonia;
-using ClsOom.ClassOOM.il8n;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
 using RandomTick.Models;
+using RandomTick.RandomTick.seat;
+using RandomTick.RandomTick.services;
+using RandomTick.RandomTick.ticket;
 using RandomTick.ViewModels;
 using RandomTick.Views.Pages;
 
@@ -12,39 +13,82 @@ namespace RandomTick.Views;
 
 public partial class MainWindow : AppWindow, IUiEventManage
 {
+
+    private readonly MainWindowViewModel _model;
+    private readonly TickSetService _service;
+    
     public MainWindow()
     {
-        App.RTTApp.Server.UpdateFields(this);
+        
         TitleBar.ExtendsContentIntoTitleBar = true;
         
         DataContext ??= new MainWindowViewModel(new List<NavItem>
         {
-            new(this, NormalModeText!, typeof(HomePage), "Home"),
-            new(this, RepeatModeText!, typeof(RepeatMode), "Refresh"),
-            new(this, EditorText!, typeof(TagEditor), "Contact")
+            new(this, "抽签工具", () => new TagTool(), "\ue82d"),
+            new(this, "座位工具", () => new SeatPage(), "\uf0e2"),
+            new(this, "班级编辑", () => new TagEditor(), "\ue70f")
         }, new List<NavItem>
         {
-            new(this, SettingsText!, typeof(Settings), "Setting")
+            new(this, "设置", () => new Settings(), "\ue713")
         });
         _model = (MainWindowViewModel)DataContext;
-        
-        InitializeComponent();
-        base.Title = App.RTTApp.Config.IsDebugMode ? $"{this.Title} [DeveloperMode]" : this.Title;
-        
-        var rects = new[]
-        {
-            new Rect(0, 0, 100, 32),
-            new Rect(300, 0, 100, 32)
-        };
 
-        TitleBar.SetDragRectangles(rects);
-        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+        InitializeComponent();
+        Title = App.RttApp.Config.IsDebugMode ? $"{Title} [调试模式]" : Title;
         
         OnInit();
+        
+        App.RttApp.Server.GetService("TickSetService", out TickSetService? v);
+        _service = v ?? throw new Exception("Error To Load Data");
     }
 
-    public void OnInit()
+    public async void OnInit()
     {
+        App.RttApp.Server.GetLogger("CheatEncoder", out var logger);
+        
+        var rr = Program.Args.ParseArguments();
+        var cc = rr["compile"];
+        var state = rr["state"];
+        if (cc != "" || state != "")
+        {
+            logger.Info("Begin encode task");
+            switch (state)
+            {
+                case "ticket":
+                {
+                    logger.Info("State == ticket");
+                    var ce = new TicketCheatEncoder(cc);
+                    await ce.Begin();
+                    await ce.End();
+                    break;
+                }
+                case "seat":
+                {
+                    logger.Info("State == seat");
+                    var ce = new CheatEncoder(cc);
+                    await ce.Begin();
+                    await ce.End();
+                    break;
+                }
+            }
+
+            logger.Info("Cheat file encoder task done!");
+            logger.Info("System will load it automatically");
+            Environment.Exit(0);
+        }
+        
+        // Pre Init the seat builder : read the cheat file before seat builder use it
+        try
+        {
+            await SeatBuilder.PreInit();
+            await _service.Setup();
+        }
+        catch (Exception e)
+        {
+            //logger.Error(e);
+        }
+        // ====
+
         NavigationView.SelectionChanged += NavigationViewOnSelectionChanged;
 
         NavigationView.SelectedItem = _model.NavMenu[0];
@@ -56,11 +100,11 @@ public partial class MainWindow : AppWindow, IUiEventManage
         try
         {
             if (NavigationView.SelectedItem is not NavItem item) return;
-            _model.SwitchPageUseFrame(item.PageType, Frame, item.Text);
+            _model.SwitchPageUseFrame(item.PageTypeCreate.Invoke(), Frame, item);
         }
         catch (Exception ex)
         {
-            App.RTTApp.Server.GetLogger("RTT", out var logger);
+            App.RttApp.Server.GetLogger("RTT", out var logger);
             logger.Error(ex);
         }
     }
@@ -72,12 +116,4 @@ public partial class MainWindow : AppWindow, IUiEventManage
     }
 
     ~MainWindow() => OnKill();
-
-    [Il8N] public string? NormalModeText;
-    [Il8N] public string? RepeatModeText;
-    [Il8N] public string? EditorText;
-    [Il8N] public string? SettingsText;
-    [Il8N] public string? Title;
-
-    private readonly MainWindowViewModel _model;
 }

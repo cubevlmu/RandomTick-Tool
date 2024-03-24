@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Avalonia.Controls;
-using ClsOom.ClassOOM.il8n;
 using FluentAvalonia.UI.Controls;
 using RandomTick.Models;
 using RandomTick.RandomTick.services;
@@ -15,18 +14,10 @@ public partial class TagEditor : UserControl, IUiEventManage
     private readonly TickSetService _service;
     private readonly TagEditorViewModel _context;
 
-    [Il8N] public string? HomeTag;
-    [Il8N("RandomTick.Dialogs.FileNotFound")] 
-    public string? FileNotFoundMsg;
-    [Il8N] public string? TitleTips;
-    
-
     public TagEditor()
     {
-        App.RTTApp.Server.UpdateFields(this);
-        
         DataContext = _context = new TagEditorViewModel(this);
-        App.RTTApp.Server.GetService("TickSetService", out TickSetService? v);
+        App.RttApp.Server.GetService("TickSetService", out TickSetService? v);
         _service = v ?? throw new Exception("Error To Load Data");
         
         InitializeComponent();
@@ -43,7 +34,7 @@ public partial class TagEditor : UserControl, IUiEventManage
         var lst = (IList)ViewTab.TabItems;
         lst.Add(new TabViewItem
         {
-            Header = HomeTag,
+            Header = "编辑器主页",
             IsClosable = false,
             IconSource = new SymbolIconSource
             {
@@ -77,14 +68,14 @@ public partial class TagEditor : UserControl, IUiEventManage
         var file = _service[name];
         if (file == null)
         {
-            DialogExtend.ShowErrorDialog(FileNotFoundMsg!);
+            DialogExtend.ShowErrorDialog("很抱歉，找不到班级！请尝试重新创建或者修复文件");
             return;
         }
 
         var lst = (IList)ViewTab.TabItems;
         lst.Add(new TabViewItem
         {
-            Header = $"{TitleTips} {name}",
+            Header = $"✏️编辑中 {name}",
             IconSource = new SymbolIconSource
             {
                 Symbol = Symbol.Document

@@ -1,9 +1,8 @@
 using System;
+using System.Threading.Tasks;
 using ClsOom.ClassOOM;
 using ClsOom.ClassOOM.config.backends;
-using ClsOom.ClassOOM.il8n;
 using ClsOom.ClassOOM.il8n.readers;
-using RandomTick.ClassOOM;
 using RandomTick.RandomTick.services;
 using ClassOomServer = ClsOom.ClassOOM.ClassOomServer;
 
@@ -17,36 +16,24 @@ public class RandomTickApp : IGuiApp
     {
         Service = this;
         Server = ClassOomServer.CreateServer(this);
-        Server.Init();
     }
+
+    public async Task Init()
+        => await Server.Init();
     
     public void OnLoad(ClassOomServer server)
     {
         server
             .BeginConfig(Config)
             .BeginServices()
-            .RegisterService(new TickSetService())
-            .BeginIl8N(new JsonLang())
-            .LoadAllIl8N()
-            .SetSelectedType(Config.SelectedLanguage);
-
-        // server.GetServiceField<TickSetService>("TickSetService", "getInstance", out var field);
-        //  if(field == null)
-        //      return;
-        //  var s = (TickSetService)field;
-        //  var set = ss.NewSet("TestSet3");
-        //  set.Add("test1");
-        //  set.Add("test2");
-        //
-        //  set.Save("test3.set");
+            .RegisterService(new TickSetService());
     }
 
     
     public void OnKill(ClassOomServer server)
     {
         server
-            .EndConfig()
-            .EndIl8N();
+            .EndConfig();
     }
 
     
@@ -55,5 +42,5 @@ public class RandomTickApp : IGuiApp
 
     public string AppName => "RandomTick";
     public string AppId => "RTT";
-    public Version AppVersion => new(2, 1);
+    public Version AppVersion => new(2, 5);
 }

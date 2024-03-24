@@ -1,0 +1,64 @@
+<Panel xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:viewModels="clr-namespace:RandomTick.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:SeatPageViewModel"
+             x:Class="RandomTick.Views.Pages.SeatPage">
+    
+    <Design.DataContext>
+        <viewModels:SeatPageViewModel/>
+    </Design.DataContext>
+    
+    
+    <StackPanel Orientation="Vertical" Spacing="10">
+        <controls:CommandBar DefaultLabelPosition="Right">
+            <controls:CommandBar.PrimaryCommands>
+                <controls:CommandBarButton Label="生成" Name="Gen">
+                    <controls:CommandBarButton.IconSource>
+                        <controls:FontIconSource FontFamily="{StaticResource FluentIcon}"
+                                                 Glyph="&#xe751;"/>
+                    </controls:CommandBarButton.IconSource>
+                </controls:CommandBarButton>
+                <controls:CommandBarButton Label="保存到xls" 
+                                           Name="SaveXls"
+                                           IconSource="Save"/>
+                <controls:CommandBarSeparator/>
+                
+                <controls:CommandBarToggleButton Label="配置视图" Name="Setup">
+                    <controls:CommandBarToggleButton.IconSource>
+                        <controls:FontIconSource FontFamily="{StaticResource FluentIcon}"
+                                                 Glyph="&#xec87;"/>
+                    </controls:CommandBarToggleButton.IconSource>
+                </controls:CommandBarToggleButton>
+            
+                <controls:CommandBarSeparator/>
+            
+            </controls:CommandBar.PrimaryCommands>
+        </controls:CommandBar>
+        <ItemsControl Name="Test">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="viewModels:SeatItem">
+                    <controls:InfoBar IsOpen="True" 
+                                      Width="130"
+                                      IsClosable="False"
+                                      IsIconVisible="False"
+                                      Title="{Binding IndexText}"
+                                      Message="{Binding Name}"
+                                      Margin="3"
+                                      Tapped="InputElement_OnTapped"
+                                      Tag="{Binding IndexText}"
+                                      >
+                    </controls:InfoBar>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</Panel>

@@ -21,7 +21,7 @@ public partial class ClassOomServer
         }
 
         logger = new LoggerBackend(
-            _service ?? throw new Exception("Logger Module Not Init"), 
+            _service, 
             name
         );
         _bufferedLoggers.Add(name, logger);
@@ -37,11 +37,12 @@ public partial class ClassOomServer
             logger = bufferedLogger;
             return this;
         }
-        
+
         logger = new LoggerBackend(
-            _service ?? throw new Exception("Logger Module Not Init"), 
+            _service,
             tp.Name
         );
+
         return this;
     }
     

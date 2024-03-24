@@ -25,17 +25,20 @@ namespace ClsOom.ClassOOM.loggers.old
 			GC.Collect();
 		}
 
-		private async Task PrintThread()
+		private Task PrintThread()
         {
             var task = _tasks.Take();
-            await _stream.Write(task.Text2);
-            _stream.WriteColor(task.Color.GetLogTypeConsoleColor());
-            await _stream.Write(task.Color.GetLogTypeShortString());
-            _stream.Reset();
-            await _stream.Write(task.Text);
-            await _stream.WriteLine();
+            lock (_stream)
+            {
+	            _stream.Write(task.Text2);
+	            _stream.WriteColor(task.Color.GetLogTypeConsoleColor());
+	            _stream.Write(task.Color.GetLogTypeShortString());
+	            _stream.Reset();  
+	            _stream.Write(task.Text);
+	            _stream.WriteLine();
+            }
 
-            _ = Task.Run(PrintThread);
+            return Task.Run(PrintThread);
         }
 
 		private LoggerBackend() { Start(); }

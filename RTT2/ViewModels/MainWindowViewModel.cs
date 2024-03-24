@@ -8,10 +8,10 @@ namespace RandomTick.ViewModels;
 
 public struct NavItem
 {
-    public NavItem(IResourceHost r, string t, Type page, string i, string? iS = null)
+    public NavItem(IResourceHost r, string t, Func<object> pageCreate, string i, string? iS = null)
     {
         Text = t;
-        PageType = page;
+        PageTypeCreate = pageCreate;
         
         //var icon = GetIcon(r, i);
         Icon = i;
@@ -40,7 +40,7 @@ public struct NavItem
     public string Text { get; }
     public string Icon { get; private set; }
     public string? IconSelected { get; }
-    public Type PageType { get; }
+    public Func<object> PageTypeCreate { get; }
 }
 
 
@@ -63,8 +63,8 @@ public class MainWindowViewModel : ViewModelBase
     public List<NavItem> NavFooter { get; }
     
     
-    private string _header = string.Empty;
-    public string PageHeader
+    private NavItem? _header;
+    public NavItem? PageHeader
     {
         get => _header;
         set => this.RaiseAndSetIfChanged(ref _header, value);
@@ -79,26 +79,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public NavItem? DefaultItem => null;
 
-    internal void SetHeader(string header)
+    public void SwitchPageUseFrame(object pageType, Frame f, NavItem item)
     {
-        PageHeader = header; 
-    }
-
-    public void SwitchPage(Type pageType, string? title = null)
-    {
-        var result = Activator.CreateInstance(pageType);
-        if (result is not UserControl control) return;
-        
-        var titleTag = title ?? ((string?)control.Tag ?? "[No Title]");
-        
-        PageHeader = titleTag;
-        PageContent = control;
-    }
-    
-    public void SwitchPageUseFrame(Type pageType, Frame f, string title)
-    {
-        var r = f.Navigate(pageType);
+        var r = f.NavigateByInstance(pageType);
         if(!r) return;
-        PageHeader = title;
+        PageHeader = item;
     }
 }

@@ -16,12 +16,12 @@ public partial class ClassOomServer
         _app = app;
     }
 
-    public ClassOomServer Init()
+    public Task Init()
     {
         BeginLogger()
             .BeginIo();
         _app.OnLoad(this);
-        return this;
+        return Task.CompletedTask;
     }
 
     public ClassOomServer Gc()

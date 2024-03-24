@@ -1,29 +1,64 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net7.0</TargetFrameworks>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+
+        <TieredPGO>true</TieredPGO>
+<!--        <PublishAot>true</PublishAot>-->
+        <OptimizationPreference>Size</OptimizationPreference>
+        <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+        <TrimMode>full</TrimMode>
+        <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+        <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+        <UseSystemResourceKeys>true</UseSystemResourceKeys>
+        <UseNativeHttpHandler>true</UseNativeHttpHandler>
+        <StartupHookSupport>false</StartupHookSupport>
+        <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+        <PublishTrimmed>true</PublishTrimmed>
+        
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Native" Version="11.0.5" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
-        <PackageReference Include="FluentAvaloniaUI" Version="2.0.4" />
+        <PackageReference Include="Avalonia" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Native" Version="11.0.6" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.6" />
+        <PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.0.6" />
+        <PackageReference Include="NPOI" Version="2.6.2" />
     </ItemGroup>
-
 
     <ItemGroup>
       <ProjectReference Include="..\ClsOom\ClsOom.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="FluentAvalonia">
+        <HintPath>..\FluentAvalonia.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Pages\Ticket\RepeatMode.axaml.cs">
+        <DependentUpon>RepeatMode.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\Ticket\NormalMode.axaml.cs">
+        <DependentUpon>HomePage.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+
 </Project>

@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="RandomTick.Views.Pages.Editor.EditorHomePage"
              
-             
+       
              xmlns:vm="using:RandomTick.ViewModels.Editor"
              xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia">
     
@@ -15,12 +15,12 @@
     
     <controls:CommandBar DefaultLabelPosition="Right">
         <controls:CommandBar.PrimaryCommands>
-            <controls:CommandBarButton Name="OpenBtn" IconSource="Open" Label="Open Select" />
+            <controls:CommandBarButton Name="OpenBtn" IconSource="Open" Label="打开班级"/>
             <controls:CommandBarSeparator />
-            <controls:CommandBarButton Name="NewBtn" IconSource="New" Label="New" />
-            <controls:CommandBarButton Name="DeleteBtn" IconSource="Delete" Label="Delete" />
+            <controls:CommandBarButton Name="NewBtn" IconSource="New" Label="新建班级" />
+            <controls:CommandBarButton Name="DeleteBtn" IconSource="Delete" Label="删除班级" />
             <controls:CommandBarSeparator />
-            <controls:CommandBarButton Name="RefreshBtn" IconSource="Refresh" Label="Refresh" />
+            <controls:CommandBarButton Name="RefreshBtn" IconSource="Refresh" Label="刷新列表" />
         </controls:CommandBar.PrimaryCommands>
     </controls:CommandBar>
     <ListBox Name="Files" Margin="5,50,5,5"/>

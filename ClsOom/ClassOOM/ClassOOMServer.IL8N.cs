@@ -66,6 +66,23 @@ public partial class ClassOomServer
         return this;
     }
 
+    public ClassOomServer GetTranslate(string key, out string value)
+    {
+        var lang = _loadedIl8NFiles
+            .Where(t => t.Info.Type == _selectedType);
+        
+        value = key;
+        
+        foreach (var file in lang ?? throw new Exception("No Lang File Selected"))
+        {
+            if(!file.Contains(key)) continue;
+            var v = file[key];
+            value = v;
+        }
+
+        return this;
+    }
+
     public ClassOomServer UpdateFields(object classInstance)
     {
         var tp = classInstance.GetType();

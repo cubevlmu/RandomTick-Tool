@@ -1,0 +1,32 @@
+<Panel xmlns="https://github.com/avaloniaui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+       xmlns:pages="clr-namespace:RandomTick.Views.Pages"
+       mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+       x:Class="RandomTick.Views.Pages.TagTool">
+
+    <controls:TabView CanDragTabs="False" 
+                      IsAddTabButtonVisible="False"
+                      CanReorderTabs="False"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+        <controls:TabView.TabItems>
+            <controls:TabViewItem Header="默认模式" IsClosable="False">
+                <controls:TabViewItem.IconSource>
+                    <controls:FontIconSource FontFamily="{StaticResource FluentIcon}"
+                                             Glyph="&#xe742;" />
+                </controls:TabViewItem.IconSource>
+                <pages:NormalMode Margin="-57.5,0,0,0"/>
+            </controls:TabViewItem>
+            <controls:TabViewItem Header="循环模式" IsClosable="False">
+                <controls:TabViewItem.IconSource>
+                    <controls:FontIconSource FontFamily="{StaticResource FluentIcon}"
+                                             Glyph="&#xe72c;" />
+                </controls:TabViewItem.IconSource>
+                <pages:RepeatMode Margin="-57.5,0,0,0"/>
+            </controls:TabViewItem>
+        </controls:TabView.TabItems>
+    </controls:TabView>
+</Panel>
